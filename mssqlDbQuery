@@ -1,0 +1,377 @@
+USE [master]
+GO
+
+/****** Object:  Database [AracKiralamaDB]    Script Date: 30-Dec-20 5:16:35 PM ******/
+CREATE DATABASE [AracKiralamaDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'AracKiralamaDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\AracKiralamaDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'AracKiralamaDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\AracKiralamaDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [AracKiralamaDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET ANSI_NULLS OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET ANSI_PADDING OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET ANSI_WARNINGS OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET ARITHABORT OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET AUTO_CLOSE OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET AUTO_SHRINK OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET QUOTED_IDENTIFIER OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET  DISABLE_BROKER 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET RECOVERY FULL 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET QUERY_STORE = OFF
+GO
+
+ALTER DATABASE [AracKiralamaDB] SET  READ_WRITE 
+GO
+
+
+USE [AracKiralamaDB]
+GO
+
+/****** Object:  Table [dbo].[Arac]    Script Date: 30-Dec-20 5:16:56 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Arac](
+	[PlakaNo] [varchar](11) NOT NULL,
+	[UygunlukDurumu] [varchar](11) NOT NULL,
+	[UretimYili] [varchar](4) NOT NULL,
+	[Marka] [varchar](20) NOT NULL,
+	[Model] [varchar](20) NOT NULL,
+	[Kilometre] [int] NOT NULL,
+	[VitesTuru] [varchar](8) NOT NULL,
+	[YakitTipi] [varchar](20) NOT NULL,
+	[GunlukUcret] [smallmoney] NOT NULL,
+ CONSTRAINT [PK__Arac__8B507B4B1C6FE918] PRIMARY KEY CLUSTERED 
+(
+	[PlakaNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Arac]  WITH CHECK ADD  CONSTRAINT [ck_UretimYili] CHECK  (([UretimYili] like '[0-2][0-9][0-9][0-9]'))
+GO
+
+ALTER TABLE [dbo].[Arac] CHECK CONSTRAINT [ck_UretimYili]
+GO
+
+ALTER TABLE [dbo].[Arac]  WITH CHECK ADD  CONSTRAINT [CK_uygunlukDurumu] CHECK  (([UygunlukDurumu]='Uygun' OR [UygunlukDurumu]='Uygun Değil'))
+GO
+
+ALTER TABLE [dbo].[Arac] CHECK CONSTRAINT [CK_uygunlukDurumu]
+GO
+
+ALTER TABLE [dbo].[Arac]  WITH CHECK ADD  CONSTRAINT [CK_VitesTuru] CHECK  (([VitesTuru]='Otomatik' OR [VitesTuru]='Manuel'))
+GO
+
+ALTER TABLE [dbo].[Arac] CHECK CONSTRAINT [CK_VitesTuru]
+GO
+
+ALTER TABLE [dbo].[Arac]  WITH CHECK ADD  CONSTRAINT [ck_YakitTipi] CHECK  (([YakitTipi]='elektrik' OR [YakitTipi]='hibrit' OR [YakitTipi]='dizel' OR [YakitTipi]='benzin ve lpg' OR [YakitTipi]='benzin'))
+GO
+
+ALTER TABLE [dbo].[Arac] CHECK CONSTRAINT [ck_YakitTipi]
+GO
+
+
+USE [AracKiralamaDB]
+GO
+
+/****** Object:  Table [dbo].[Faturalama]    Script Date: 30-Dec-20 5:17:02 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Faturalama](
+	[FaturaNumarası] [int] IDENTITY(10000,1) NOT NULL,
+	[ToplamGecikmeFaizi] [smallmoney] NULL,
+	[FaturaTarihi] [smalldatetime] NULL,
+	[ToplamTutar] [smallmoney] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[FaturaNumarası] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+USE [AracKiralamaDB]
+GO
+
+/****** Object:  Table [dbo].[Ikametgah]    Script Date: 30-Dec-20 5:17:07 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Ikametgah](
+	[Mahalle] [varchar](20) NOT NULL,
+	[Cadde] [varchar](20) NOT NULL,
+	[Sokak] [varchar](20) NULL,
+	[ApartmanNo] [varchar](10) NOT NULL,
+	[DaireNo] [varchar](10) NOT NULL,
+	[PostaKodu] [varchar](5) NOT NULL,
+	[Ilce] [varchar](20) NOT NULL,
+	[Sehir] [varchar](20) NOT NULL,
+	[EhliyetNo] [varchar](6) NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Ikametgah]  WITH CHECK ADD  CONSTRAINT [fk_IkametgahEhliyetNo] FOREIGN KEY([EhliyetNo])
+REFERENCES [dbo].[Musteri] ([EhliyetNo])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[Ikametgah] CHECK CONSTRAINT [fk_IkametgahEhliyetNo]
+GO
+
+ALTER TABLE [dbo].[Ikametgah]  WITH CHECK ADD  CONSTRAINT [ck_PostaKodu] CHECK  (([PostaKodu] like '[0-9][0-9][0-9][0-9][0-9]'))
+GO
+
+ALTER TABLE [dbo].[Ikametgah] CHECK CONSTRAINT [ck_PostaKodu]
+GO
+
+
+USE [AracKiralamaDB]
+GO
+
+/****** Object:  Table [dbo].[Kiralama]    Script Date: 30-Dec-20 5:17:12 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Kiralama](
+	[KiralamaNo] [int] IDENTITY(1000,1) NOT NULL,
+	[KiralamaTarihi] [smalldatetime] NOT NULL,
+	[TeslimTarihi] [smalldatetime] NOT NULL,
+	[GercekTeslimTarihi] [datetime] NULL,
+	[GunSayisi] [int] NULL,
+	[SigortaDurumu] [char](1) NOT NULL,
+	[SigortaGunlukTutar] [smallmoney] NULL,
+	[GecikmeFaizi] [smallmoney] NULL,
+	[PlakaNo] [varchar](11) NULL,
+	[EhliyetNo] [varchar](6) NULL,
+	[FaturaNo] [int] NULL,
+ CONSTRAINT [PK__Kiralama__5EFEF9839E7B1237] PRIMARY KEY CLUSTERED 
+(
+	[KiralamaNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Kiralama]  WITH CHECK ADD  CONSTRAINT [FK__Kiralama__Fatura__2EA5EC27] FOREIGN KEY([FaturaNo])
+REFERENCES [dbo].[Faturalama] ([FaturaNumarası])
+ON DELETE SET NULL
+GO
+
+ALTER TABLE [dbo].[Kiralama] CHECK CONSTRAINT [FK__Kiralama__Fatura__2EA5EC27]
+GO
+
+ALTER TABLE [dbo].[Kiralama]  WITH CHECK ADD  CONSTRAINT [fk_KiralamaEhliyetNo] FOREIGN KEY([EhliyetNo])
+REFERENCES [dbo].[Musteri] ([EhliyetNo])
+GO
+
+ALTER TABLE [dbo].[Kiralama] CHECK CONSTRAINT [fk_KiralamaEhliyetNo]
+GO
+
+ALTER TABLE [dbo].[Kiralama]  WITH CHECK ADD  CONSTRAINT [fk_KiralamaPlakaNo] FOREIGN KEY([PlakaNo])
+REFERENCES [dbo].[Arac] ([PlakaNo])
+ON DELETE SET NULL
+GO
+
+ALTER TABLE [dbo].[Kiralama] CHECK CONSTRAINT [fk_KiralamaPlakaNo]
+GO
+
+ALTER TABLE [dbo].[Kiralama]  WITH CHECK ADD  CONSTRAINT [ck_SigortaDurumu] CHECK  (([SigortaDurumu]='Y' OR [SigortaDurumu]='V'))
+GO
+
+ALTER TABLE [dbo].[Kiralama] CHECK CONSTRAINT [ck_SigortaDurumu]
+GO
+
+
+USE [AracKiralamaDB]
+GO
+
+/****** Object:  Table [dbo].[Musteri]    Script Date: 30-Dec-20 5:17:19 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Musteri](
+	[EhliyetNo] [varchar](6) NOT NULL,
+	[Isim] [varchar](15) NOT NULL,
+	[SoyIsim] [varchar](25) NOT NULL,
+	[TelNo] [varchar](11) NOT NULL,
+	[EmailAdresi] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EhliyetNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Musteri]  WITH CHECK ADD  CONSTRAINT [ck_EhliyetNo] CHECK  (([EhliyetNo] like '[0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+
+ALTER TABLE [dbo].[Musteri] CHECK CONSTRAINT [ck_EhliyetNo]
+GO
+
+ALTER TABLE [dbo].[Musteri]  WITH CHECK ADD  CONSTRAINT [ck_TelNo] CHECK  (([TelNo] like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+
+ALTER TABLE [dbo].[Musteri] CHECK CONSTRAINT [ck_TelNo]
+GO
+
+ALTER TABLE [dbo].[Musteri]  WITH CHECK ADD  CONSTRAINT [ckEmailAdresi] CHECK  (([EmailAdresi] like '%@%.%'))
+GO
+
+ALTER TABLE [dbo].[Musteri] CHECK CONSTRAINT [ckEmailAdresi]
+GO
+
+
+USE [AracKiralamaDB]
+GO
+
+/****** Object:  Table [dbo].[SilinmisArac]    Script Date: 30-Dec-20 5:17:25 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SilinmisArac](
+	[PlakaNo] [varchar](11) NOT NULL,
+	[UygunlukDurumu] [varchar](11) NOT NULL,
+	[UretimYili] [varchar](4) NOT NULL,
+	[Marka] [varchar](20) NOT NULL,
+	[Model] [varchar](20) NOT NULL,
+	[Kilometre] [int] NOT NULL,
+	[VitesTuru] [varchar](8) NOT NULL,
+	[YakitTipi] [varchar](20) NOT NULL,
+	[GunlukUcret] [smallmoney] NOT NULL
+) ON [PRIMARY]
+GO
+
+
+USE [AracKiralamaDB]
+GO
+
+/****** Object:  Table [dbo].[Users]    Script Date: 30-Dec-20 5:17:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Users](
+	[UserName] [varchar](50) NOT NULL,
+	[Passwords] [varchar](50) NOT NULL,
+	[Tip] [varchar](10) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
